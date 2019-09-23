@@ -5,6 +5,8 @@ const VideoPlayer = (function() {
   let progressWrapper = null;
   let volume = null;
   let speedChange = null;
+  let btnMinus = null;
+  let btnPlus = null;
 
   /**
    * @desc Function init
@@ -19,6 +21,7 @@ const VideoPlayer = (function() {
     _setElements();
     _initEvents();
 
+    console.log(btnMinus);
     return {
       play,
       stop
@@ -67,8 +70,8 @@ const VideoPlayer = (function() {
        <button class="player__button toggle" title="Toggle Play">►</button>
        <input type="range" name="volume" class="player__slider" min=0 max="1" step="0.05" value="1">
        <input type="range" name="playbackRate" class="player__slider" min="0.5" max="2" step="0.1" value="1">
-       <button data-skip="-1" class="player__button">« 1s</button>
-       <button data-skip="1" class="player__button">1s »</button>
+       <button data-skip="-1" class="player__button" id="minus">« 1s</button>
+       <button data-skip="1" class="player__button" id="plus">1s »</button>
      </div>
     `;
   }
@@ -79,6 +82,8 @@ const VideoPlayer = (function() {
     progressWrapper = document.querySelector(".progress");
     volume = document.querySelector(".player__slider");
     speedChange = volume.nextElementSibling;
+    btnMinus = document.getElementById("minus");
+    btnPlus = document.getElementById("plus");
   }
 
   function _handleProgress() {
@@ -99,13 +104,23 @@ const VideoPlayer = (function() {
     video.playbackRate = (this.value / 100) * speedChange.offsetWidth;
   }
 
+  function _skipMinus() {
+    video.currentTime - 1;
+    console.log("skip -");
+  }
+
+  function _skipPlus() {
+    video.currentTime - btnPlus.data;
+  }
+
   function _initEvents() {
     toggleBtn.addEventListener("click", toggle);
     video.addEventListener("click", toggle);
     video.addEventListener("timeupdate", _handleProgress);
     progressWrapper.addEventListener("click", _scrub);
     volume.addEventListener("change", _changeVolume);
-    speedChange.addEventListener('change', _changeSpeed);
+    speedChange.addEventListener("change", _changeSpeed);
+    btnMinus.addEventListener("click", _skipMinus);
   }
 
   return {
