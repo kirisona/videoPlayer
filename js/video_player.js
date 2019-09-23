@@ -4,7 +4,7 @@ const VideoPlayer = (function() {
   let progress = null;
   let progressWrapper = null;
   let volume = null;
-  let changeSpeed = null;
+  let speedChange = null;
 
   /**
    * @desc Function init
@@ -21,8 +21,7 @@ const VideoPlayer = (function() {
 
     return {
       play,
-      stop,
-      
+      stop
     };
   }
 
@@ -78,8 +77,8 @@ const VideoPlayer = (function() {
     toggleBtn = document.querySelector(".toggle");
     progress = document.querySelector(".progress__filled");
     progressWrapper = document.querySelector(".progress");
-    volume = document.querySelector('.player__slider');
-    changeSpeed = volume.nextElementSibling;
+    volume = document.querySelector(".player__slider");
+    speedChange = volume.nextElementSibling;
   }
 
   function _handleProgress() {
@@ -93,20 +92,21 @@ const VideoPlayer = (function() {
   }
 
   function _changeVolume(e) {
-     video.volume = (this.value / 100) * volume.offsetWidth;
+    video.volume = (this.value / 100) * volume.offsetWidth;
   }
 
-
+  function _changeSpeed(e) {
+    video.playbackRate = (this.value / 100) * speedChange.offsetWidth;
+  }
 
   function _initEvents() {
     toggleBtn.addEventListener("click", toggle);
     video.addEventListener("click", toggle);
     video.addEventListener("timeupdate", _handleProgress);
     progressWrapper.addEventListener("click", _scrub);
-    volume.addEventListener('change', _changeVolume);
+    volume.addEventListener("change", _changeVolume);
+    speedChange.addEventListener('change', _changeSpeed);
   }
-
-
 
   return {
     init
