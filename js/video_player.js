@@ -22,7 +22,7 @@ const VideoPlayer = (function() {
     return {
       play,
       stop,
-      volumeVideo
+      
     };
   }
 
@@ -39,10 +39,6 @@ const VideoPlayer = (function() {
   function stop() {
     video.currentTime = 0;
     video.pause();
-  }
-
-  function volumeVideo() {
-    video.volume() = 0.2;
   }
 
   function _initTemplate() {
@@ -96,6 +92,10 @@ const VideoPlayer = (function() {
       (e.offsetX / progressWrapper.offsetWidth) * video.duration;
   }
 
+  function _changeVolume(e) {
+     video.volume = (this.value / 100) * volume.offsetWidth;
+  }
+
 
 
   function _initEvents() {
@@ -103,7 +103,10 @@ const VideoPlayer = (function() {
     video.addEventListener("click", toggle);
     video.addEventListener("timeupdate", _handleProgress);
     progressWrapper.addEventListener("click", _scrub);
+    volume.addEventListener('change', _changeVolume);
   }
+
+
 
   return {
     init
