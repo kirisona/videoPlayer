@@ -21,7 +21,6 @@ const VideoPlayer = (function() {
     _setElements();
     _initEvents();
 
-    console.log(btnMinus);
     return {
       play,
       stop
@@ -92,6 +91,7 @@ const VideoPlayer = (function() {
   }
 
   function _scrub(e) {
+    console.log(e);
     video.currentTime =
       (e.offsetX / progressWrapper.offsetWidth) * video.duration;
   }
@@ -104,13 +104,12 @@ const VideoPlayer = (function() {
     video.playbackRate = (this.value / 100) * speedChange.offsetWidth;
   }
 
-  function _skipMinus() {
-    video.currentTime - 1;
-    console.log("skip -");
+  function _skipMinus(e) {
+    video.currentTime -= 1;
   }
 
-  function _skipPlus() {
-    video.currentTime - btnPlus.data;
+  function _skipPlus(e) {
+    video.currentTime += 1;
   }
 
   function _initEvents() {
@@ -121,6 +120,7 @@ const VideoPlayer = (function() {
     volume.addEventListener("change", _changeVolume);
     speedChange.addEventListener("change", _changeSpeed);
     btnMinus.addEventListener("click", _skipMinus);
+    btnPlus.addEventListener("click", _skipPlus);
   }
 
   return {
